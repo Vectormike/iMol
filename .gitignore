@@ -1,5 +1,12 @@
 # Dependencies
 node_modules
+.vscode
+.babelrc
+.prettierrc
+.eslintrc.js
+
+# Production
+dist 
 
 # Environment variables
 .env
