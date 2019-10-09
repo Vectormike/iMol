@@ -1,6 +1,6 @@
 import express from "express";
 
-// import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 import chalk from "chalk";
 
@@ -8,26 +8,30 @@ import createDebug from "debug";
 
 import morgan from "morgan";
 
-import dotenv from "dotenv";
+import { mongoURI } from "../server/config/db";
+
+import products from "./routes/api/products";
 
 const app = express();
-const port = 5000;
-dotenv.config();
+const port = 7000;
 
 const debug = createDebug("app");
 
 // Middlewares
 app.use(morgan("tiny"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // Connect to DB
-// const db = require('./config/db');
+mongoose
+  .connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => debug(`${chalk.green(`MongoDB Connected`)}`))
+  .catch(error => debug(`Database is not connected... ${chalk.red(error)}`));
 
-// mongoose
-//   .connect(db, {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useUnifiedTopology: true
-//   })
-//   .then(() => console.log(`MongoDB Connected`))
-//   .catch(error => console.error(`Database is not connected... ${error}`));
+// // Use Routes
+// app.use("/api/products/", products);
 
-app.listen(port, () => debug(`Server running on port ${chalk.red(port)}`));
+app.listen(port, () => debug(`Server running on port ${chalk.green(port)}`));
