@@ -1,7 +1,10 @@
 import { Router } from "express";
 const router = Router();
 
+import { getProduct, editProduct } from "../../controllers/product";
 import { Product } from "../../models/Product";
+
+
 
 // @route GET api/products
 // @desc Get all products
@@ -28,13 +31,45 @@ router.post("/", async (req, res) => {
   });
   try {
     const newProduct = await product.save();
-    res.status(201).json(newProduct);
+    if (newProduct) {
+      res.status(201).json(newProduct);
+    }
+    res.status(401).json({
+      message: "Couldn't add product..."
+    });
   } catch (error) {
     res.status(500).json({
-      message: "Couldn't add product...",
       error: error.message
     });
   }
 });
+
+// @route GET api/products/:id
+// @desc Search/Get a product
+// @access Public
+router.get("/:id", getProduct, editProduct);
+
+// @route PATCH api/products
+// @desc Edit a product
+// @access Public
+router.patch("/", async (req, res, next) => {
+  const { params } = req;
+  try {
+    const product = await Product.findById(params);
+    if (product) {
+      res.status(201).json(product);
+    }
+    res.status(404).json({
+      message: "Couldn't find that product"
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+  }
+},
+next();
+
+);
 
 export default router;
