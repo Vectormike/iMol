@@ -31,10 +31,28 @@ export const editProduct = async (req, res) => {
       res.status(201).json(editedProduct);
     }
     res.status(400).json({
-      message: "Couldn't edit product..."
+      message: "Couldn't edit this product..."
     });
   } catch (error) {
     res.status(400).json({
+      message: error.message
+    });
+  }
+};
+
+export const deleteProduct = async (req, res) => {
+  try {
+    const deletedProduct = await res.product.remove();
+    if (deletedProduct) {
+      res.json.status(201).json({
+        message: "Product deleted..."
+      });
+    }
+    res.json({
+      message: "Couldn't delete this product"
+    });
+  } catch (error) {
+    res.status.json({
       message: error.message
     });
   }
