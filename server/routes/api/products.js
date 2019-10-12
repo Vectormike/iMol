@@ -32,11 +32,11 @@ router.get("/:id", getProduct);
 // @route PATCH api/products
 // @desc Edit a product
 // @access Public
-router.patch("/:id", getProduct, editProduct);
+router.patch("/:id", editProduct);
 
 // @route DELETE api/product/:id
 // @desc Delete a product
 // @access Public
-router.delete("/:id", getProduct, deleteProduct);
+router.delete("/:id", deleteProduct);
 
 export default router;
