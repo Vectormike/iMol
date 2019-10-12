@@ -39,7 +39,7 @@ class ProductControllers {
     }
   }
 
-  static async getProduct(req, res, next) {
+  static async getProduct(req, res) {
     const { id } = req.params;
     try {
       const foundProduct = await Product.findById(id);
@@ -55,20 +55,26 @@ class ProductControllers {
         error: error.message
       });
     }
-    next();
   }
 
   static async editProduct(req, res) {
     try {
-      if (req.body.name) {
-        res.product.name = req.body.name;
-      }
-      if (req.body.price) {
-        res.product.price = req.body.price;
-      }
-      const editedProduct = await res.product.save();
+      const { name, price } = req.body;
+      const update = {
+        name,
+        price
+      };
+      const { id } = req.params;
+      const product = await Product.findByIdAndUpdate(id, update, {
+        useFindAndModify: false
+      });
+
+      const editedProduct = await product.save();
       if (editedProduct) {
-        res.status(201).json(editedProduct);
+        res.status(201).json({
+          message: "Product is updated",
+          editedProduct
+        });
       }
     } catch (error) {
       res.status(400).json({
@@ -79,19 +85,20 @@ class ProductControllers {
   }
 
   static async deleteProduct(req, res) {
+    const { id } = req.params;
     try {
-      const deletedProduct = await res.product.remove();
+      const deletedProduct = await Product.findByIdAndRemove(id, {
+        useFindAndModify: false
+      });
       if (deletedProduct) {
         res.json.status(201).json({
           message: "Product deleted..."
         });
       }
-      res.json({
-        message: "Couldn't delete this product"
-      });
     } catch (error) {
       res.status.json({
-        message: error.message
+        message: "Couldn't delete this product",
+        error: error.message
       });
     }
   }
