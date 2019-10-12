@@ -1,10 +1,17 @@
 import { Router } from "express";
 const router = Router();
 
-import { getProduct, editProduct } from "../../controllers/product";
+// Controllers
+import {
+  getProduct,
+  editProduct,
+  deleteProduct
+} from "../../controllers/product";
+
+// Model
 import { Product } from "../../models/Product";
 
-
+// Routes
 
 // @route GET api/products
 // @desc Get all products
@@ -47,29 +54,16 @@ router.post("/", async (req, res) => {
 // @route GET api/products/:id
 // @desc Search/Get a product
 // @access Public
-router.get("/:id", getProduct, editProduct);
+router.get("/:id", getProduct);
 
 // @route PATCH api/products
 // @desc Edit a product
 // @access Public
-router.patch("/", async (req, res, next) => {
-  const { params } = req;
-  try {
-    const product = await Product.findById(params);
-    if (product) {
-      res.status(201).json(product);
-    }
-    res.status(404).json({
-      message: "Couldn't find that product"
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: error.message
-    });
-  }
-},
-next();
+router.patch("/:id", getProduct, editProduct);
 
-);
+// @route DELETE api/product/:id
+// @desc Delete a product
+// @access Public
+router.delete("/:id", getProduct, deleteProduct);
 
 export default router;
