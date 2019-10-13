@@ -87,16 +87,15 @@ class ProductControllers {
   static async deleteProduct(req, res) {
     const { id } = req.params;
     try {
-      const deletedProduct = await Product.findByIdAndRemove(id, {
-        useFindAndModify: false
-      });
+      const deleteProduct = await Product.findById(id);
+      const deletedProduct = await Product.remove(deleteProduct);
       if (deletedProduct) {
-        res.json.status(201).json({
+        res.status(201).json({
           message: "Product deleted..."
         });
       }
     } catch (error) {
-      res.status.json({
+      res.status(500).json({
         message: "Couldn't delete this product",
         error: error.message
       });
