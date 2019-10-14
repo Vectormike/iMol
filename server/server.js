@@ -24,13 +24,16 @@ app.use(express.urlencoded({ extended: false }));
 mongoose
   .connect(mongoURI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
   })
   .then(() => debug(`${chalk.green(`MongoDB Connected`)}`))
   .catch(error => debug(`Database is not connected... ${chalk.red(error)}`));
 
 // Use Routes
 import products from "./routes/api/products";
+import users from "./routes/api/users";
 app.use("/api/products/", products);
+app.use("/api/users/", users);
 
 app.listen(port, () => debug(`Server running on port ${chalk.green(port)}`));
