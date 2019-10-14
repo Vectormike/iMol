@@ -1,4 +1,6 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { jwtSecret } from ".././config/jwt";
 
 // Model
 import { User } from "../models/User";
@@ -33,16 +35,28 @@ class UserControllers {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
           newUser.password = hash;
-          const registeredUser = newUser.save();
-          if (registeredUser) {
-            res.status(200).json({
-              user: {
-                id: registeredUser.id,
-                name: registeredUser.name,
-                email: registeredUser.ema
+          newUser.save();
+          if (newUser) {
+            jwt.sign(
+              {
+                id: newUser.id
               },
-              message: "Registration is successful"
-            });
+              jwtSecret,
+              { expiresIn: "1hr" },
+
+              (err, token) => {
+                if (err) throw err;
+                res.status(200).json({
+                  token,
+                  user: {
+                    id: newUser.id,
+                    name: newUser.name,
+                    email: newUser.email
+                  },
+                  message: "Registration is successful"
+                });
+              }
+            );
           }
         });
       });
@@ -50,6 +64,17 @@ class UserControllers {
       res.status(500).json({
         error: error.message,
         message: "Registration failed"
+      });
+    }
+  }
+
+  static async loginUser(req, res) {
+    try {
+      const { email, password } = req.body;
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+        message: "Login failed"
       });
     }
   }
