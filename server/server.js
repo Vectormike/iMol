@@ -32,8 +32,8 @@ mongoose
 
 // Use Routes
 import products from "./routes/api/products";
-import users from "./routes/api/users";
+import users from "./routes/api/auth";
 app.use("/api/products/", products);
-app.use("/api/users/", users);
+app.use("/api/auth/", users);
 
 app.listen(port, () => debug(`Server running on port ${chalk.green(port)}`));
