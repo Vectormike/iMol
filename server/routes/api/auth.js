@@ -3,7 +3,7 @@ const router = Router();
 
 // Middlewares
 import UserMiddlewares from "../../middlewares/auth";
-const { validatePassword } = UserMiddlewares;
+const { validateEmail, validatePassword } = UserMiddlewares;
 
 // Controller
 import UserControllers from "../../controllers/auth";
@@ -12,7 +12,7 @@ const { registerUser, loginUser } = UserControllers;
 // @route POST api/users
 // @desc Register a user
 // @access Public
-router.post("/register", validatePassword, registerUser);
+router.post("/register", validateEmail, validatePassword, registerUser);
 
 // @route POST api/auth/login
 // @desc Auth a user
