@@ -1,4 +1,20 @@
 class UserMiddlewares {
+  static validateName(req, res, next) {
+    try {
+      const { name } = req.body;
+      const nameRegEx = /\d+/;
+
+      if (nameRegEx.test(name)) {
+        throw new Error();
+      }
+      next();
+    } catch (error) {
+      return res.status(400).json({
+        message: "Enter a name without digits"
+      });
+    }
+  }
+
   static validateEmail(req, res, next) {
     try {
       const { email } = req.body;
