@@ -16,6 +16,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "chalk": "^2.4.2",
+    "cloudinary": "^1.16.0",
     "concurrently": "^4.1.2",
     "datauri": "^2.0.0",
     "debug": "^4.1.1",
