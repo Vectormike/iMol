@@ -8,7 +8,8 @@ import createDebug from "debug";
 
 import morgan from "morgan";
 
-import { mongoURI } from "../server/config/db";
+import { mongoURI } from "./config/db";
+import { cloudinaryConfig } from "./config/cloudinary";
 
 const app = express();
 const port = 7000;
@@ -19,6 +20,8 @@ const debug = createDebug("app");
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use("/", cloudinaryConfig);
 
 // Connect to DB
 mongoose
@@ -33,7 +36,9 @@ mongoose
 // Use Routes
 import products from "./routes/api/products";
 import users from "./routes/api/auth";
+import uploads from "./routes/api/uploads";
 app.use("/api/products/", products);
 app.use("/api/auth/", users);
+app.use("/api/uploads/", uploads);
 
 app.listen(port, () => debug(`Server running on port ${chalk.green(port)}`));
