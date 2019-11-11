@@ -14,11 +14,7 @@ import {
   FormLabel,
   Input,
   InputRightElement,
-  InputGroup,
-  InputLeftAddon,
-  InputRightAddon,
-  Select,
-  Textarea
+  InputGroup
 } from '@chakra-ui/core';
 
 const SignIn = () => {
