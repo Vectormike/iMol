@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "build": "npm run clean && mkdir dist && babel server --out-dir dist",
-    "start": "DEBUG=app nodemon --exec babel-node server/server.js",
+    "start": "DEBUG=app nodemon --exec babel-node server.js",
     "clean": "rm -rf dist",
     "dev": "npm run build && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
