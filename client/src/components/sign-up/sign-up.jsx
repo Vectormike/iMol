@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useDisclosure, FormControl } from '@chakra-ui/core';
+import { useDisclosure } from '@chakra-ui/core';
 import {
   Button,
   Drawer,
@@ -17,7 +17,10 @@ import {
   InputGroup
 } from '@chakra-ui/core';
 
-const SignUp = () => {
+import { connect } from 'react-redux';
+import { showAlert } from '../../redux/actions/alert';
+
+const SignUp = ({ showAlert }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
   const btnRef = useRef();
@@ -35,18 +38,17 @@ const SignUp = () => {
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: [e.target.value] });
   };
-  const onSubmit = e => {
+  const handleSubmit = async e => {
+    e.preventDefault();
     if (password !== password2) {
-      console.log(password);
+      showAlert('Passwords do not match', 'warning');
     } else {
-      console.log(name);
     }
   };
 
   return (
     <>
       <Button
-        ref={btnRef}
         mx='auto'
         leftIcon='add'
         variantColor='teal'
@@ -62,7 +64,7 @@ const SignUp = () => {
         finalFocusRef={btnRef}
         onClose={onClose}>
         <DrawerOverlay />
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit}>
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader borderBottomWidth='1px'>
@@ -87,7 +89,6 @@ const SignUp = () => {
                 <Box>
                   <FormLabel htmlFor='username'>Email</FormLabel>
                   <Input
-                    ref={firstField}
                     id='email'
                     type='email'
                     name='email'
@@ -138,8 +139,8 @@ const SignUp = () => {
               <Button variant='outline' mr={3} onClick={onClose}>
                 Cancel
               </Button>
-              <Button type='submit' variantColor='blue'>
-                Submit
+              <Button ref={btnRef} type='submit' variantColor='blue'>
+                Register
               </Button>
             </DrawerFooter>
           </DrawerContent>
@@ -149,4 +150,8 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+const mapDispatchToProps = dispatch => ({
+  showAlert: (message, status) => dispatch(showAlert(message, status))
+});
+
+export default connect(null, mapDispatchToProps)(SignUp);
