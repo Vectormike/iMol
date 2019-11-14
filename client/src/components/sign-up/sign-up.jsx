@@ -20,6 +20,8 @@ import {
 import { connect } from 'react-redux';
 import { showAlert } from '../../redux/actions/alert';
 
+import PropTypes from 'prop-types';
+
 const SignUp = ({ showAlert }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
@@ -148,6 +150,10 @@ const SignUp = ({ showAlert }) => {
       </Drawer>
     </>
   );
+};
+
+SignUp.propTypes = {
+  showAlert: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({

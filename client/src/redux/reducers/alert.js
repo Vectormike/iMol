@@ -8,7 +8,7 @@ export const alertReducer = (state = initialState, action) => {
     case SHOW_ALERT:
       return [...state, payload];
     case REMOVE_ALERT:
-      return [...state, removeAlert(state, payload)];
+      return removeAlert(state, payload);
     default:
       return state;
   }
