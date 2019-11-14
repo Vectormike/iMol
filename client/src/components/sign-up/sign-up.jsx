@@ -41,7 +41,7 @@ const SignUp = ({ showAlert }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     if (password !== password2) {
-      showAlert('Passwords do not match', 'warning');
+      showAlert('Passwords do not match', 'warning', 5000);
     } else {
     }
   };
@@ -151,7 +151,8 @@ const SignUp = ({ showAlert }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  showAlert: (message, status) => dispatch(showAlert(message, status))
+  showAlert: (message, status, timeout) =>
+    dispatch(showAlert(message, status, timeout))
 });
 
 export default connect(null, mapDispatchToProps)(SignUp);
