@@ -19,10 +19,11 @@ import {
 
 import { connect } from 'react-redux';
 import { showAlert } from '../../redux/actions/alert';
+import { register } from '../../redux/actions/auth';
 
 import PropTypes from 'prop-types';
 
-const SignUp = ({ showAlert }) => {
+const SignUp = ({ showAlert, register }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
   const btnRef = useRef();
@@ -42,9 +43,13 @@ const SignUp = ({ showAlert }) => {
   };
   const handleSubmit = async e => {
     e.preventDefault();
+
     if (password !== password2) {
       showAlert('Passwords do not match', 'warning', 5000);
+      return;
     } else {
+      // Send details to server
+      register({ name, email, password });
     }
   };
 
@@ -153,12 +158,14 @@ const SignUp = ({ showAlert }) => {
 };
 
 SignUp.propTypes = {
-  showAlert: PropTypes.func.isRequired
+  showAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
   showAlert: (message, status, timeout) =>
-    dispatch(showAlert(message, status, timeout))
+    dispatch(showAlert(message, status, timeout)),
+  register: (name, email, password) => dispatch(register(name, email, password))
 });
 
 export default connect(null, mapDispatchToProps)(SignUp);
