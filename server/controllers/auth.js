@@ -1,9 +1,9 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { jwtSecret } from "../config/jwt";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { jwtSecret } from '../config/jwt';
 
 // Model
-import { User } from "../models/User";
+import { User } from '../models/User';
 
 class UserControllers {
   static async registerUser(req, res) {
@@ -12,14 +12,14 @@ class UserControllers {
 
       if (!name || !email || !password) {
         res.status(400).json({
-          message: "Please, input all fields"
+          message: 'Please, input all fields'
         });
         return;
       }
       const foundUser = await User.findOne({ email });
       if (foundUser) {
         res.status(400).json({
-          message: "Sorry, this user already exists"
+          message: 'Sorry, this user already exists'
         });
         return;
       }
@@ -29,6 +29,7 @@ class UserControllers {
         email,
         password
       });
+      console.log(newUser.name);
 
       bcrypt.genSalt(10, (err, salt) => {
         if (err) throw err;
@@ -42,7 +43,7 @@ class UserControllers {
                 id: newUser.id
               },
               jwtSecret,
-              { expiresIn: "1hr" },
+              { expiresIn: '1hr' },
 
               (err, token) => {
                 if (err) throw err;
@@ -53,7 +54,7 @@ class UserControllers {
                     name: newUser.name,
                     email: newUser.email
                   },
-                  message: "Registration is successful"
+                  message: 'Registration is successful'
                 });
               }
             );
@@ -63,7 +64,7 @@ class UserControllers {
     } catch (error) {
       res.status(500).json({
         error: error.message,
-        message: "Registration failed"
+        message: 'Registration failed'
       });
     }
   }
@@ -73,20 +74,20 @@ class UserControllers {
       const { email, password } = req.body;
       if (!email || !password)
         return res.status(400).json({
-          message: "Please, enter all fields"
+          message: 'Please, enter all fields'
         });
 
       const foundUser = await User.findOne({ email });
       if (!foundUser) {
         return status(400).json({
-          message: "Sorry, user does not exist"
+          message: 'Sorry, user does not exist'
         });
       }
 
       const match = await bcrypt.compare(password, foundUser.password);
       if (!match) {
         return res.status(400).json({
-          message: "Invalid credentials"
+          message: 'Invalid credentials'
         });
       }
 
@@ -95,7 +96,7 @@ class UserControllers {
           id: foundUser.id
         },
         jwtSecret,
-        { expiresIn: "1hr" },
+        { expiresIn: '1hr' },
 
         (err, token) => {
           if (err) throw err;
@@ -106,14 +107,14 @@ class UserControllers {
               name: foundUser.name,
               email: foundUser.email
             },
-            message: "Login is successful"
+            message: 'Login is successful'
           });
         }
       );
     } catch (error) {
       res.status(500).json({
         error: error.message,
-        message: "Login failed"
+        message: 'Login failed'
       });
     }
   }
