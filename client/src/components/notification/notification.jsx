@@ -10,7 +10,7 @@ const Notification = ({ alerts }) => {
     alerts !== null &&
     alerts.length > 0 &&
     alerts.map(alert => (
-      <div>
+      <div key={alert.id}>
         <Alert key={alert.id} status={alert.status}>
           <AlertIcon />
           {alert.message}
