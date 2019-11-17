@@ -12,10 +12,10 @@ export const verifyToken = (req, res, next) => {
     }
     const decoded = jwt.verify(token, jwtSecret);
     req.user = decoded;
+    next();
   } catch (error) {
     res.status(500).json({
       message: 'Token is invalid'
     });
   }
-  next();
 };
