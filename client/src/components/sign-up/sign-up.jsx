@@ -43,14 +43,14 @@ const SignUp = ({ showAlert, register }) => {
   };
   const handleSubmit = async e => {
     e.preventDefault();
-
-    if (password !== password2) {
-      showAlert('Passwords do not match', 'warning', 5000);
-      return;
-    } else {
-      // Send details to server
-      register({ name, email, password });
-    }
+    register({ name, email, password });
+    // if (password !== password2) {
+    //   showAlert('Passwords do not match', 'warning', 5000);
+    //   return;
+    // } else {
+    //   // Send details to server
+    //   register(name, email, password);
+    // }
   };
 
   return (

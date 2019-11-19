@@ -21,9 +21,21 @@ const SignIn = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
   const btnRef = useRef();
-
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+  const { email, password } = formData;
+
+  const onChange = e => {
+    setFormData({ ...formData, [e.target.name]: [e.target.value] });
+  };
+  const handleSubmit = async e => {
+    e.preventDefault();
+  };
 
   return (
     <>
@@ -44,46 +56,56 @@ const SignIn = () => {
         finalFocusRef={btnRef}
         onClose={onClose}>
         <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth='1px'>Sign In</DrawerHeader>
+        <form onSubmit={handleSubmit}>
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader borderBottomWidth='1px'>Sign In</DrawerHeader>
 
-          <DrawerBody>
-            <Stack spacing='24px'>
-              <Box>
-                <FormLabel htmlFor='username'>Email</FormLabel>
-                <Input
-                  ref={firstField}
-                  id='username'
-                  placeholder='Please enter email'
-                />
-              </Box>
-
-              <Box>
-                <FormLabel htmlFor='username'>Password</FormLabel>
-                <InputGroup>
+            <DrawerBody>
+              <Stack spacing='24px'>
+                <Box>
+                  <FormLabel htmlFor='username'>Email</FormLabel>
                   <Input
-                    pr='4.5rem'
-                    type={show ? 'text' : 'password'}
-                    placeholder='Enter password'
+                    ref={firstField}
+                    type='text'
+                    name='name'
+                    value={email}
+                    placeholder='Email'
+                    onChange={onChange}
                   />
-                  <InputRightElement width='4.5rem'>
-                    <Button h='1.75rem' size='sm' onClick={handleClick}>
-                      {show ? 'Hide' : 'Show'}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </Box>
-            </Stack>
-          </DrawerBody>
+                </Box>
 
-          <DrawerFooter borderTopWidth='1px'>
-            <Button variant='outline' mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button variantColor='blue'>Submit</Button>
-          </DrawerFooter>
-        </DrawerContent>
+                <Box>
+                  <FormLabel htmlFor='username'>Password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      pr='4.5rem'
+                      type={show ? 'text' : 'password'}
+                      placeholder='Password'
+                      name='password'
+                      value={password}
+                      onChange={onChange}
+                    />
+                    <InputRightElement width='4.5rem'>
+                      <Button h='1.75rem' size='sm' onClick={handleClick}>
+                        {show ? 'Hide' : 'Show'}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </Box>
+              </Stack>
+            </DrawerBody>
+
+            <DrawerFooter borderTopWidth='1px'>
+              <Button variant='outline' mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button ref={btnRef} variantColor='blue'>
+                Submit
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </form>
       </Drawer>
     </>
   );
