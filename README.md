@@ -1,4 +1,15 @@
 
+## 📖 Getting started
+
+1. Clone this repository into your local machine:
+```
+git clone https://github.com/Vectormike/iMol.git
+```
+2. Install dependencies
+```
+npm install
+```
+
 ## Endpoints
 
 <table>
@@ -42,6 +53,5 @@
 	<td>api/products/:id</td>
 	<td>Delete a product</td>
 </tr>
-
 </table>
 
