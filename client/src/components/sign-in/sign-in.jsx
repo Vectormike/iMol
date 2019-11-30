@@ -16,8 +16,11 @@ import {
   InputRightElement,
   InputGroup
 } from '@chakra-ui/core';
+import { login } from '../../redux/actions/auth';
+import { showAlert } from '../../redux/actions/alert';
+import { connect } from 'react-redux';
 
-const SignIn = () => {
+const SignIn = ({ login, showAlert }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
   const btnRef = useRef();
@@ -35,6 +38,7 @@ const SignIn = () => {
   };
   const handleSubmit = async e => {
     e.preventDefault();
+    login(email, password);
   };
 
   return (
@@ -67,8 +71,8 @@ const SignIn = () => {
                   <FormLabel htmlFor='username'>Email</FormLabel>
                   <Input
                     ref={firstField}
-                    type='text'
-                    name='name'
+                    type='email'
+                    name='email'
                     value={email}
                     placeholder='Email'
                     onChange={onChange}
@@ -100,7 +104,7 @@ const SignIn = () => {
               <Button variant='outline' mr={3} onClick={onClose}>
                 Cancel
               </Button>
-              <Button ref={btnRef} variantColor='blue'>
+              <Button type='submit' ref={btnRef} variantColor='blue'>
                 Submit
               </Button>
             </DrawerFooter>
@@ -111,4 +115,15 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+SignIn.propTypes = {
+  showAlert: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = dispatch => ({
+  login: (email, password) => dispatch(login(email, password)),
+  showAlert: (message, status, timeout) =>
+    dispatch(showAlert(message, status, timeout))
+});
+
+export default connect(null, mapDispatchToProps)(SignIn);
