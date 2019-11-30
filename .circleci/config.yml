@@ -5,7 +5,4 @@ jobs:
       - image: alpine:3.7
     steps:
       - checkout
-      - run:
-        name: Testing
-        command: |
-          echo "Hello"
+      - run: echo "Test"
