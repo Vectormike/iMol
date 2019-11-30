@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: alpine:3.7
+      - image: circleci/node:12.13.0
     steps:
       - checkout
       - run: echo "Build server"
@@ -10,7 +10,7 @@ jobs:
       - run: CI-true npm run build
   test:
     docker:
-      -  image: alpine:3.7
+      -  image: circleci/node:12.13.0
     steps:
       - checkout
       - run: echo "Run test"
