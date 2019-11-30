@@ -118,6 +118,21 @@ class UserControllers {
       });
     }
   }
+  static async getUser(req, res) {
+    try {
+      const details = User.findById(req.user.id).select('-password');
+      if (!details) {
+        throw new Error();
+      } else {
+        return res.status(200).json(details);
+      }
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+        message: 'No user found'
+      });
+    }
+  }
 }
 
 export default UserControllers;
