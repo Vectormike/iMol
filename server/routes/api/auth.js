@@ -5,13 +5,20 @@ const router = Router();
 import UserMiddlewares from '../../middlewares/auth';
 const { validateName, validateEmail, validatePassword } = UserMiddlewares;
 
+import auth from '../../middlewares/jwt';
+
 // Controller
 import UserControllers from '../../controllers/auth';
-const { registerUser, loginUser } = UserControllers;
+const { registerUser, loginUser, getUser } = UserControllers;
+
+// @route GET api/users
+// @desc Get user's details
+// @access Private
+router.get('/', auth, getUser);
 
 // @route POST api/users
 // @desc Register a user
-// @access Public
+// @access Private
 router.post(
   '/register',
   validateName,
@@ -22,7 +29,7 @@ router.post(
 
 // @route POST api/auth/login
 // @desc Auth a user
-// @access Public
+// @access Private
 router.post('/login', loginUser);
 
 export default router;
