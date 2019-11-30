@@ -5,4 +5,20 @@ jobs:
       - image: alpine:3.7
     steps:
       - checkout
-      - run: echo "Test"
+      - run: echo "Build server"
+      - run: npm install
+      - run: CI-true npm run build
+  test:
+    docker:
+      -  image: alpine:3.7
+    steps:
+      - checkout
+      - run: echo "Run test"
+      - run: npm install
+      - run: npm test
+workflows:
+  version: 2.1
+  build_test:
+    jobs:
+      - build
+      - test
