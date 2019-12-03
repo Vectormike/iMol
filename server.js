@@ -12,7 +12,7 @@ import { mongoURI } from './server/config/db';
 import { cloudinaryConfig } from './server/config/cloudinary';
 
 const app = express();
-const port = 5000;
+const port = 7000;
 
 app.use(cors());
 const debug = createDebug('app');
@@ -43,3 +43,5 @@ app.use('/api/auth/', users);
 app.use('/api/uploads/', uploads);
 
 app.listen(port, () => debug(`Server running on port ${chalk.green(port)}`));
+
+export default app;

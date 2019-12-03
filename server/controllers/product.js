@@ -5,7 +5,7 @@ class ProductControllers {
     try {
       const products = await Product.find();
       if (products) {
-        res.status(201).json({
+        res.status(200).json({
           message: "Viewed all products...",
           products
         });
