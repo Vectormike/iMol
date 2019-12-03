@@ -1,7 +1,7 @@
 import express from 'express';
 
 import mongoose from 'mongoose';
-import cors from "cors"
+import cors from 'cors';
 import chalk from 'chalk';
 
 import createDebug from 'debug';
@@ -12,9 +12,9 @@ import { mongoURI } from './server/config/db';
 import { cloudinaryConfig } from './server/config/cloudinary';
 
 const app = express();
-const port = 7000;
+const port = 5000;
 
-app.use(cors())
+app.use(cors());
 const debug = createDebug('app');
 
 // Middlewares
