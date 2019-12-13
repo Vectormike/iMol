@@ -8,14 +8,14 @@ jobs:
       - run: echo "Build server"
       - run: npm install
       - run: npm run build
-  test:
-    docker:
-      -  image: circleci/node:12.13.0
-    steps:
-      - checkout
-      - run: echo "Run test"
-      - run: npm install
-      - run: npm test
+  # test:
+  #   docker:
+  #     -  image: circleci/node:12.13.0
+  #   steps:
+  #     - checkout
+  #     - run: echo "Run test"
+  #     - run: npm install
+  #     - run: npm test
 workflows:
   version: 2.1
   build_test:
