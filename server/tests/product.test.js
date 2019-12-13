@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-import app from '../../server';
-import { request } from 'http';
+const app = require('../app');
+const request = require('supertest');
 
 describe('Product api', () => {
   it('should create/add a new product', async () => {
