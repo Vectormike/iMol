@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { useDisclosure } from '@chakra-ui/core';
 import {
   Button,
@@ -23,7 +24,7 @@ import { register } from '../../redux/actions/auth';
 
 import PropTypes from 'prop-types';
 
-const SignUp = ({ showAlert, register }) => {
+const SignUp = ({ showAlert, register, isAuthenticated }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
   const btnRef = useRef();
@@ -43,16 +44,19 @@ const SignUp = ({ showAlert, register }) => {
   };
   const handleSubmit = async e => {
     e.preventDefault();
-    register({ name, email, password });
-    // if (password !== password2) {
-    //   showAlert('Passwords do not match', 'warning', 5000);
-    //   return;
-    // } else {
-    //   // Send details to server
-    //   register(name, email, password);
-    // }
+    if (password !== password2) {
+      console.log(password, password2);
+
+      showAlert('Passwords do not match', 'warning', 3000);
+    } else {
+      // Send details to server
+      register({ name, email, password });
+    }
   };
 
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
   return (
     <>
       <Button
@@ -159,8 +163,13 @@ const SignUp = ({ showAlert, register }) => {
 
 SignUp.propTypes = {
   showAlert: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 };
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
 
 const mapDispatchToProps = dispatch => ({
   showAlert: (message, status, timeout) =>
@@ -168,4 +177,4 @@ const mapDispatchToProps = dispatch => ({
   register: (name, email, password) => dispatch(register(name, email, password))
 });
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

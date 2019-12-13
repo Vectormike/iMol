@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { useDisclosure } from '@chakra-ui/core';
 import {
   Button,
@@ -16,11 +17,12 @@ import {
   InputRightElement,
   InputGroup
 } from '@chakra-ui/core';
+import PropTypes from 'prop-types';
 import { login } from '../../redux/actions/auth';
 import { showAlert } from '../../redux/actions/alert';
 import { connect } from 'react-redux';
 
-const SignIn = ({ login, showAlert }) => {
+const SignIn = ({ login, showAlert, isAuthenticated }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = useRef();
   const btnRef = useRef();
@@ -38,9 +40,16 @@ const SignIn = ({ login, showAlert }) => {
   };
   const handleSubmit = async e => {
     e.preventDefault();
-    login(email, password);
+    if (password === '') {
+      showAlert('Type in your password', 'warning', 3000);
+    } else {
+      login({ email, password });
+    }
   };
 
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
   return (
     <>
       <Button
@@ -105,7 +114,7 @@ const SignIn = ({ login, showAlert }) => {
                 Cancel
               </Button>
               <Button type='submit' ref={btnRef} variantColor='blue'>
-                Submit
+                Login
               </Button>
             </DrawerFooter>
           </DrawerContent>
@@ -117,8 +126,13 @@ const SignIn = ({ login, showAlert }) => {
 
 SignIn.propTypes = {
   showAlert: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 };
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
 
 const mapDispatchToProps = dispatch => ({
   login: (email, password) => dispatch(login(email, password)),
@@ -126,4 +140,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(showAlert(message, status, timeout))
 });
 
-export default connect(null, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
