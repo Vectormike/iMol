@@ -55,15 +55,15 @@ export const register = ({ name, email, password }) => async dispatch => {
 
 // Loginn user
 export const login = ({ email, password }) => async dispatch => {
-  // let Email = email.toString();
-  // let Password = password.toString();
+  let Email = email.toString();
+  let Password = password.toString();
 
   const options = {
     method: 'post',
     url: 'http://localhost:7000/api/auth/login',
     data: {
-      email: email,
-      password: password
+      email: Email,
+      password: Password
     }
   };
   try {
