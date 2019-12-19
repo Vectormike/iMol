@@ -1,11 +1,17 @@
 import React from 'react';
+import Items from '../grid-items/grid-items';
 
 const GridDashboard = () => {
   return (
-    <section className='container'>
+    <section className='container-fluid'>
       <div className='row'>
-        <div className='col-md-4 col-sm-4'>Dashboard</div>
-        <div className='col-md-8 col-sm-8'>View</div>
+        <div className='col-4'>
+          <ul className>
+            <li>Link 1</li>
+            <li>Link 2</li>
+          </ul>
+        </div>
+        <div className='col-8'>View</div>
       </div>
     </section>
   );
