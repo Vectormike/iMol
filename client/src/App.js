@@ -7,7 +7,7 @@ import { loadUser } from './redux/actions/auth';
 
 import Notification from './components/notification/notification';
 import Homepage from './pages/Homepage/homepage';
-import Dashboard from './pages/Dashboard/dashboard';
+import Dashboard from './pages/Dashboard/dashboard2';
 
 function App() {
   useEffect(() => {
