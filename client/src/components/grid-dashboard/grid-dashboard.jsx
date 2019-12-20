@@ -1,17 +1,19 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
+
 import Items from '../grid-items/grid-items';
+import View from '../grid-view/grid-view';
 
 const GridDashboard = () => {
   return (
     <section className='container-fluid'>
       <div className='row'>
         <div className='col-4'>
-          <ul className>
-            <li>Link 1</li>
-            <li>Link 2</li>
-          </ul>
+          <Items />
         </div>
-        <div className='col-8'>View</div>
+        <div className='col-8'>
+          <Route exact path='/dashboard/:link1' component={View} />
+        </div>
       </div>
     </section>
   );

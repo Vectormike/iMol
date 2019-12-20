@@ -4,7 +4,7 @@ import GridDashboard from '../../components/grid-dashboard/grid-dashboard';
 
 const Dashboard = () => (
   <div>
-    {/* <Navbar /> */}
+    {/* <Navba r /> */}
     <GridDashboard />
   </div>
 );
