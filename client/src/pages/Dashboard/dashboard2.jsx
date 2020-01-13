@@ -10,7 +10,7 @@ const Dashboard = props => {
   return (
     <div>
       <Sidebar>
-        <Menu />
+        <Menu props={props} />
       </Sidebar>
       <MenuView />
     </div>

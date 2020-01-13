@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 
 import Styles from '../../styles/menu-items.module.scss';
 
-const MenuItem = ({ title }) => (
+const MenuItem = ({ title, props }) => (
   <Fragment>
-    <Link className={Styles.item}>
+    {console.log(props)}
+    <Link to={`${props.match.url}/products`} className={Styles.item}>
       <i className={Styles.icon}></i>
       {title}
     </Link>

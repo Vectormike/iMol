@@ -2,12 +2,12 @@ import React, { Fragment, useState } from 'react';
 import MenuItem from '../menu-item/menu-item';
 import pages from '../../helpers/item-data';
 
-const Menu = () => {
+const Menu = ({ props }) => {
   return (
     <Fragment>
       <nav>
         {pages.map((item, i) => {
-          return <MenuItem key={i} title={item.name} />;
+          return <MenuItem key={i} props={props} title={item.name} />;
         })}
       </nav>
     </Fragment>
