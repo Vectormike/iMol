@@ -1,15 +1,19 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
+import Products from '../products/products';
 
 import Styles from '../../styles/menu-items.module.scss';
 
 const MenuItem = ({ title, props }) => (
   <Fragment>
     {console.log(props)}
-    <Link to={`${props.match.url}/products`} className={Styles.item}>
+    <Link to='/products' className={Styles.item}>
       <i className={Styles.icon}></i>
       {title}
     </Link>
+    <div>
+      <Route exact path='/products' component={Products} />
+    </div>
   </Fragment>
 );
 
