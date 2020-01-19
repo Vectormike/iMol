@@ -19,7 +19,6 @@ const Routes = () => {
       <Switch>
         <Route exact path='/' component={Homepage} />
         <Route exact path='/dashboard' component={Dashboard} />
-        <Route path='/dashboard/:name' component={MenuView} />
       </Switch>
     </Fragment>
   );
