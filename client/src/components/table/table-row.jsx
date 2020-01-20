@@ -5,6 +5,9 @@ export default function TableRow({ row }) {
     <div>
       <tr>
         <td>{row}</td>
+        <td>{row}</td>
+        <td>{row}</td>
+        <td>{row}</td>
       </tr>
     </div>
   );
