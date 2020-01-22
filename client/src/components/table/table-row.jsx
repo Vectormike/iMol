@@ -1,13 +1,10 @@
 import React from 'react';
 
-export default function TableRow({ row }) {
+export default function TableRow({ products }) {
   return (
     <div>
       <tr>
-        <td>{row}</td>
-        <td>{row}</td>
-        <td>{row}</td>
-        <td>{row}</td>
+        <td>{products}</td>
       </tr>
     </div>
   );
