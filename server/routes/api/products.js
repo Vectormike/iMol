@@ -20,7 +20,7 @@ const {
 // @route GET api/products
 // @desc Get all products
 // @access Public
-router.get("/", verifyToken, getAllProducts);
+router.get("/",  getAllProducts);
 
 // @route POST api/products
 // @desc Add a product

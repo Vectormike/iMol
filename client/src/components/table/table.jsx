@@ -8,7 +8,7 @@ import TableRow from './table-row';
 
 const header = ['Name', 'Price'];
 
-const Table = ({ getProducts }) => {
+const Table = ({ getProducts, products: { products } }) => {
   useEffect(() => {
     getProducts();
   }, [getProducts]);
@@ -17,9 +17,9 @@ const Table = ({ getProducts }) => {
       <table>
         <TableHeader header={header} />
         <tbody>
-          {/* {products.map((product, i) => (
+          {products.map((product, i) => (
             <TableRow key={i} products={product} />
-          ))} */}
+          ))}
           <TableRow />
         </tbody>
       </table>
@@ -28,12 +28,12 @@ const Table = ({ getProducts }) => {
 };
 
 Table.propTypes = {
-  product: PropTypes.isRequired,
+  products: PropTypes.object.isRequired,
   getProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  products: state.products
+  products: state.product
 });
 
 const mapDispatchToProps = dispatch => ({
