@@ -21,9 +21,9 @@ export const getProducts = () => async dispatch => {
       payload: res.data
     });
   } catch (error) {
+    dispatch(showAlert('error', 'error', 5000));
     dispatch({
       type: PRODUCT_ERROR
     });
-    dispatch(showAlert(error.response.data.message, 'error', 5000));
   }
 };
