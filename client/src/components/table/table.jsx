@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProducts } from '../../redux/actions/product';
@@ -8,15 +8,19 @@ import TableRow from './table-row';
 
 const header = ['Name', 'Price'];
 
-const Table = ({ product: products, loading }) => {
+const Table = ({ getProducts, products: { products } }) => {
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
   return (
     <Fragment>
       <table>
         <TableHeader header={header} />
         <tbody>
-          {products.map(product => (
-            <TableRow key={product._id} products={product} />
+          {products.map((product, i) => (
+            <TableRow key={i} products={product} />
           ))}
+          <TableRow />
         </tbody>
       </table>
     </Fragment>
@@ -24,12 +28,12 @@ const Table = ({ product: products, loading }) => {
 };
 
 Table.propTypes = {
-  product: PropTypes.object.isRequired,
+  products: PropTypes.object.isRequired,
   getProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  products: state.products
+  products: state.product
 });
 
 const mapDispatchToProps = dispatch => ({
