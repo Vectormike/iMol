@@ -1,4 +1,4 @@
-import { Product } from "../models/Product";
+import { Product } from '../../models/Product';
 
 class ProductControllers {
   static async getAllProducts(req, res) {
@@ -6,14 +6,14 @@ class ProductControllers {
       const products = await Product.find();
       if (products) {
         res.status(200).json({
-          message: "Viewed all products...",
-          products
+          message: 'Viewed all products...',
+          products,
         });
       }
     } catch (error) {
       res.status(500).json({
         message: "Couldn't get products...",
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -23,18 +23,18 @@ class ProductControllers {
       const { name, price } = req.body;
       const product = new Product({
         name,
-        price
+        price,
       });
       const newProduct = await product.save();
 
       res.status(201).json({
-        message: "Product created...",
-        newProduct
+        message: 'Product created...',
+        newProduct,
       });
     } catch (error) {
       res.status(500).json({
         message: "Couldn't add product...",
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -45,14 +45,14 @@ class ProductControllers {
       const foundProduct = await Product.findById(id);
       if (foundProduct) {
         res.status(201).json({
-          message: "Product found",
-          foundProduct
+          message: 'Product found',
+          foundProduct,
         });
       }
     } catch (error) {
       res.status(500).json({
         message: "Couldn't find that product",
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -62,24 +62,24 @@ class ProductControllers {
       const { name, price } = req.body;
       const update = {
         name,
-        price
+        price,
       };
       const { id } = req.params;
       const product = await Product.findByIdAndUpdate(id, update, {
-        useFindAndModify: false
+        useFindAndModify: false,
       });
 
       const editedProduct = await product.save();
       if (editedProduct) {
         res.status(201).json({
-          message: "Product is updated",
-          editedProduct
+          message: 'Product is updated',
+          editedProduct,
         });
       }
     } catch (error) {
       res.status(400).json({
         message: "Couldn't edit this product...",
-        error: error.message
+        error: error.message,
       });
     }
   }
@@ -91,13 +91,13 @@ class ProductControllers {
       const deletedProduct = await Product.remove(deleteProduct);
       if (deletedProduct) {
         res.status(201).json({
-          message: "Product deleted..."
+          message: 'Product deleted...',
         });
       }
     } catch (error) {
       res.status(500).json({
         message: "Couldn't delete this product",
-        error: error.message
+        error: error.message,
       });
     }
   }

@@ -2,13 +2,13 @@ import { Router } from 'express';
 const router = Router();
 
 // Middlewares
-import UserMiddlewares from '../../middlewares/auth';
+import UserMiddlewares from '../middlewares/auth';
 const { validateName, validateEmail, validatePassword } = UserMiddlewares;
 
-import { verifyToken } from '../../middlewares/jwt';
+import { verifyToken } from '../middlewares/jwt';
 
 // Controller
-import UserControllers from '../../controllers/auth';
+import UserControllers from '../controllers/auth';
 const { registerUser, loginUser, getUser } = UserControllers;
 
 // @route GET api/users

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { jwtSecret } from '../config/jwt';
+import config from '../../config/vars';
 
 export const verifyToken = (req, res, next) => {
   try {
@@ -7,15 +7,15 @@ export const verifyToken = (req, res, next) => {
 
     if (!token) {
       return res.status(401).json({
-        message: 'Authorization denied'
+        message: 'Authorization denied',
       });
     }
-    const decoded = jwt.verify(token, jwtSecret);
+    const decoded = jwt.verify(token, config.jwtSecret);
     req.user = decoded;
     next();
   } catch (error) {
     res.status(500).json({
-      message: 'Token is invalid'
+      message: 'Token is invalid',
     });
   }
 };

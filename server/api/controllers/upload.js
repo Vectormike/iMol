@@ -1,5 +1,5 @@
-import { v2 } from "../config/cloudinary";
-import { dataUri } from "../middlewares/multer";
+import { v2 } from '../../config/cloudinary';
+import { dataUri } from '../middlewares/multer';
 
 class UploadControllers {
   static async uploadImage(req, res) {
@@ -9,15 +9,15 @@ class UploadControllers {
         const result = await v2.uploader.upload(file);
         const image = await result.url;
         return res.status(200).json({
-          message: "Your image has been uploaded",
+          message: 'Your image has been uploaded',
           data: {
-            image
-          }
+            image,
+          },
         });
       }
     } catch (error) {
       res.status(500).json({
-        message: "Uncussesful"
+        message: 'Uncussesful',
       });
     }
   }
