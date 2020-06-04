@@ -1,15 +1,17 @@
-import app from './server/app';
-import chalk from 'chalk';
+/* eslint-disable no-undef */
+import app from './server/loaders/express';
+import DB from './server/loaders/mongoose';
+import LoggerInstance from './server/loaders/logger';
+import config from './server/config/vars';
 
-import createDebug from 'debug';
-
-import morgan from 'morgan';
-
-const debug = createDebug('app');
-
-// Middlewares
-app.use(morgan('dev'));
-
-const port = 7000;
-
-app.listen(port, () => debug(`Server running on port ${chalk.green(port)}`));
+async function startServer() {
+  await DB();
+  app.listen(process.env.PORT, (err) => {
+    if (err) {
+      LoggerInstance.error(err);
+      process.exit(1);
+    }
+    LoggerInstance.info(`🛡️ Server listening on port: ${config.port}🛡️ `);
+  });
+}
+startServer();
