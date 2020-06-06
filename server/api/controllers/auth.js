@@ -1,5 +1,5 @@
 import AuthService from '../../services/auth';
-import logger from '../loaders/logger';
+import logger from '../../loaders/logger';
 
 const AuthController = {
   /**

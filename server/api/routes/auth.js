@@ -1,35 +1,24 @@
 import { Router } from 'express';
-const router = Router();
-
-// Middlewares
-import UserMiddlewares from '../middlewares/auth';
-const { validateName, validateEmail, validatePassword } = UserMiddlewares;
-
+import { validate } from 'express-validation';
 import { verifyToken } from '../middlewares/jwt';
+import AuthController from '../controllers/auth';
+import { register, login } from '../../validations/auth';
 
-// Controller
-import UserControllers from '../controllers/auth';
-const { registerUser, loginUser, getUser } = UserControllers;
+const router = Router();
 
 // @route GET api/users
 // @desc Get user's details
 // @access Private
-router.get('/', verifyToken, getUser);
+//router.get('/', verifyToken, getUser);
 
 // @route POST api/users
 // @desc Register a user
 // @access Private
-router.post(
-  '/register',
-  validateName,
-  validateEmail,
-  validatePassword,
-  registerUser
-);
+router.post('/register', validate(register), AuthController.registerUser);
 
 // @route POST api/auth/login
 // @desc Auth a user
 // @access Private
-router.post('/login', loginUser);
+router.post('/login', validate(login), AuthController.loginUser);
 
 export default router;
