@@ -1,138 +1,39 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import config from '../../config/vars';
+import AuthService from '../../services/auth';
+import logger from '../loaders/logger';
 
-// Model
-import { User } from '../../models/User';
+const AuthController = {
+  /**
+   * Signup user
+   * @constructor
+   * @param {*} req - get request.
+   * @param {*} res -get response
+   */
 
-class UserControllers {
-  static async registerUser(req, res) {
+  async registerUser(req, res) {
+    const userData = req.body;
     try {
-      const { name, email, password } = req.body;
-
-      if (!name || !email || !password) {
-        res.status(400).json({
-          message: 'Please, input all fields',
-        });
-        return;
-      }
-      const foundUser = await User.findOne({ email });
-      if (foundUser) {
-        res.status(400).json({
-          message: 'Sorry, this user already exists',
-        });
-        return;
-      }
-
-      const newUser = new User({
-        name,
-        email,
-        password,
-      });
-      console.log(newUser.name);
-
-      bcrypt.genSalt(10, (err, salt) => {
-        if (err) throw err;
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser.save();
-          if (newUser) {
-            jwt.sign(
-              {
-                id: newUser.id,
-              },
-              config.jwtSecret,
-              { expiresIn: '1hr' },
-
-              (err, token) => {
-                if (err) throw err;
-                res.status(200).json({
-                  token,
-                  user: {
-                    id: newUser.id,
-                    name: newUser.name,
-                    email: newUser.email,
-                  },
-                  message: 'Registration is successful',
-                });
-              }
-            );
-          }
-        });
-      });
+      const { userRecord, token } = AuthService.SignUp(userData);
+      return res.status(201).json({ userRecord, token });
     } catch (error) {
-      res.status(500).json({
-        error: error.message,
-        message: 'Registration failed',
-      });
+      logger.error(`🔥 error: %o, ${error}`);
     }
-  }
+  },
 
-  static async loginUser(req, res) {
+  /**
+   * Login user
+   * @constructor
+   * @param {*} req - get request.
+   * @param {*} res -get response
+   */
+  async loginUser(req, res) {
+    const userData = req.body;
     try {
-      const { email, password } = req.body;
-      if (!email || !password)
-        return res.status(400).json({
-          message: 'Please, enter all fields',
-        });
-
-      const foundUser = await User.findOne({ email });
-      if (!foundUser) {
-        return status(400).json({
-          message: 'Sorry, user does not exist',
-        });
-      }
-
-      const match = await bcrypt.compare(password, foundUser.password);
-      if (!match) {
-        return res.status(400).json({
-          message: 'Invalid credentials',
-        });
-      }
-
-      jwt.sign(
-        {
-          id: foundUser.id,
-        },
-        config.jwtSecret,
-        { expiresIn: '1hr' },
-
-        (err, token) => {
-          if (err) throw err;
-          res.status(200).json({
-            token,
-            user: {
-              id: foundUser.id,
-              name: foundUser.name,
-              email: foundUser.email,
-            },
-            message: 'Login is successful',
-          });
-        }
-      );
+      const { userRecord, token } = AuthService.SignIn(userData);
+      return res.status(200).json({ userRecord, token });
     } catch (error) {
-      res.status(500).json({
-        error: error.message,
-        message: 'Login failed',
-      });
+      logger.error(`🔥 error: %o, ${error}`);
     }
-  }
-  static async getUser(req, res) {
-    try {
-      const details = User.findById(req.user.id).select('-password');
-      if (!details) {
-        throw new Error();
-      } else {
-        return res.status(200).json(details);
-      }
-    } catch (error) {
-      res.status(500).json({
-        error: error.message,
-        message: 'No user found',
-      });
-    }
-  }
-}
+  },
+};
 
-export default UserControllers;
+export default AuthController;
